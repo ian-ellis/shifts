@@ -11,6 +11,10 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "com.squareup.retrofit2:retrofit:$retro_fit_version"
+
+    //_________________________________ UNIT TESTS __________________________________
+
+    testImplementation "io.mockk:mockk:$mockk_version"
 }
 
 sourceCompatibility = "1.7"
