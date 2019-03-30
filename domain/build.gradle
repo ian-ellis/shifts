@@ -9,6 +9,7 @@ dependencies {
 
     //_________________________________ THIRD PARTY _________________________________
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "com.squareup.retrofit2:retrofit:$retro_fit_version"
 }
 
