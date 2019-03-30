@@ -21,6 +21,10 @@ android {
 
 dependencies {
 
+    //___________________________________ MODULES ___________________________________
+
+    implementation project(':domain')
+
     //___________________________________ ANDROID ___________________________________
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
