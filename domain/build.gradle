@@ -6,6 +6,10 @@ dependencies {
     //___________________________________ MODULES ___________________________________
 
     implementation project(':entities')
+
+    //_________________________________ THIRD PARTY _________________________________
+
+    implementation "com.squareup.retrofit2:retrofit:$retro_fit_version"
 }
 
 sourceCompatibility = "1.7"
