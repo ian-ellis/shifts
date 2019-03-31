@@ -2,6 +2,7 @@ package com.github.ianellis.shifts.domain
 
 import com.github.ianellis.shifts.domain.location.LatLng
 import com.github.ianellis.shifts.domain.location.LocationRespoitory
+import com.github.ianellis.shifts.domain.location.LocationUnavailableException
 import com.github.ianellis.shifts.domain.time.Clock
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -55,5 +56,22 @@ class StartShiftCommandSpec {
 
         coVerify { shiftRepository.startShiftAsync("2019-03-31T19:25:59+11:00", "-33.881399", "151.199564") }
 
+    }
+
+    @Test
+    fun `invoke() uses default location if Location unavailable`(){
+        //given we will get the location successfully
+
+        coEvery { locationRepository.getLocationAsync() } returns GlobalScope.async { throw LocationUnavailableException() }
+
+        //and starting a shift will succeed
+        coEvery { shiftRepository.startShiftAsync("2019-03-31T19:25:59+11:00", "0.0", "0.0") } returns GlobalScope.async { Unit }
+
+        //when we invoke
+        runBlocking {
+            command.invoke().await()
+        }
+
+        coVerify { shiftRepository.startShiftAsync("2019-03-31T19:25:59+11:00", "0.0", "0.0") }
     }
 }

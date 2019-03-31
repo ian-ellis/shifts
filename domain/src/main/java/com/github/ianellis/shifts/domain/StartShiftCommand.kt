@@ -1,6 +1,8 @@
 package com.github.ianellis.shifts.domain
 
+import com.github.ianellis.shifts.domain.location.LatLng
 import com.github.ianellis.shifts.domain.location.LocationRespoitory
+import com.github.ianellis.shifts.domain.location.LocationUnavailableException
 import com.github.ianellis.shifts.domain.time.Clock
 import com.github.ianellis.shifts.entities.ISO8601
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,11 +21,16 @@ class StartShiftCommand(
 
     companion object {
         private const val ISO8601Format = "yyyy-MM-dd'T'HH:mm:ssZ"
+        private val FALLBACK_LOCATION = LatLng(0.0,0.0)
     }
 
     override fun invoke(): Deferred<Unit> {
         return GlobalScope.async(backgroundDispatcher) {
-            val location = locationRepository.getLocationAsync().await()
+            val location = try {
+                locationRepository.getLocationAsync().await()
+            }catch (e:LocationUnavailableException){
+                FALLBACK_LOCATION
+            }
             val date = clock.now().toTime()
             shiftRepository.startShiftAsync(date, location.first.toString(), location.second.toString()).await()
         }
