@@ -36,6 +36,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$app_compat_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
+    implementation "android.arch.lifecycle:viewmodel:$android_architecture_components_version"
     //___________________________________ STD LIBS ___________________________________
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -45,6 +46,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.amshove.kluent:kluent:$kluent_version"
+    testImplementation "android.arch.core:core-testing:$android_architecture_components_version"
 
     //_________________________________ ANDROID TESTS ________________________________
 
