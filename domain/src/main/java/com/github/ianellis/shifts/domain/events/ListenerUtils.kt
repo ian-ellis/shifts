@@ -13,3 +13,5 @@ fun <T, R> Event<T>.map(mapper: (T) -> R): Event<R> {
     } ?: Event(this.error!!)
 }
 
+typealias Ignore = () -> Unit
+
