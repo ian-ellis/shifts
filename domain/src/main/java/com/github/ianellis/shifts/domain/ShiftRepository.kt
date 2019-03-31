@@ -8,6 +8,7 @@ import com.github.ianellis.shifts.entities.ShiftEntity
 import com.github.ianellis.shifts.entities.StartShiftRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
@@ -27,17 +28,7 @@ class ShiftRepository(
     }
 
     fun loadShifts() {
-
-        GlobalScope.async {
-            try {
-                val shifts = service.shiftAsync().await()
-                cache.setShifts(shifts)
-                eventEmitter.sendEvent(Event(shifts))
-            } catch (e: Exception) {
-                val previousShifts = cache.getShifts()
-                eventEmitter.sendEvent(Event(previousShifts, e))
-            }
-        }
+        doLoadAsync()
     }
 
     fun getShiftsAsync(): Deferred<List<ShiftEntity>> {
@@ -49,14 +40,27 @@ class ShiftRepository(
     fun startShiftAsync(time: ISO8601, lat: String, lon: String): Deferred<Unit> {
         return GlobalScope.async(backgroundDispatcher) {
             service.startShiftAsync(StartShiftRequest(time, lat, lon)).await()
-            loadShifts()
+            doLoadAsync().await()
         }
     }
 
     fun endShiftAsync(time: ISO8601, lat: String, lon: String): Deferred<Unit> {
         return GlobalScope.async(backgroundDispatcher) {
             service.endShiftAsync(EndShiftRequest(time, lat, lon)).await()
-            loadShifts()
+            doLoadAsync().await()
+        }
+    }
+
+    private fun doLoadAsync(): Deferred<Unit> {
+        return GlobalScope.async(backgroundDispatcher) {
+            try {
+                val shifts = service.shiftAsync().await()
+                cache.setShifts(shifts)
+                eventEmitter.sendEvent(Event(shifts))
+            } catch (e: Exception) {
+                val previousShifts = cache.getShifts()
+                eventEmitter.sendEvent(Event(previousShifts, e))
+            }
         }
     }
 
