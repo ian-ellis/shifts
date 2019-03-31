@@ -16,6 +16,10 @@ dependencies {
 
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.amshove.kluent:kluent:$kluent_version"
+
+    //___________________________________ STD LIBS ___________________________________
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 sourceCompatibility = "1.7"
