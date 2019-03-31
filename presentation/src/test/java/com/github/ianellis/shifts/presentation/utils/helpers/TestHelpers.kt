@@ -11,3 +11,9 @@ inline fun <reified T : Any> mockFunction(): (T) -> Unit {
     every { function(any()) } just Runs
     return function
 }
+
+fun  mockFunction(): () -> Unit {
+    val function: () -> Unit = mockk()
+    every { function() } just Runs
+    return function
+}
