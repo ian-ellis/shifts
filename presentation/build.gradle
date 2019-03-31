@@ -37,6 +37,8 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
 
     implementation "android.arch.lifecycle:viewmodel:$android_architecture_components_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     //___________________________________ STD LIBS ___________________________________
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
