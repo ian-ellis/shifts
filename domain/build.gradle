@@ -28,6 +28,8 @@ afterEvaluate {
     def domainExcludes = [
         'com/github/ianellis/shifts/domain/events/Event.class',
         'com/github/ianellis/shifts/domain/time/Clock$*.class',
+        'com/github/ianellis/shifts/domain/Shift.class',
+        'com/github/ianellis/shifts/domain/ShiftState$*.class',
     ]
     buildCoverageCheck(
             ['src/main/java'],//sourcePaths:
