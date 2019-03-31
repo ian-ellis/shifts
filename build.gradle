@@ -47,4 +47,49 @@ ext {
     retro_fit_version = '2.5.0'
     mockk_version = '1.9.3'
     kluent_version = '1.49'
+    jacocoCommonExcludes = [
+
+            //generated classes
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/*_Factory*.class',
+            '**/*_MembersInjector*.class',
+            '**/BR.class',
+            //dependency injection
+            '**/di/**',
+            //android classes
+            '**/Manifest*.*',
+            'android/**',
+            '**/*Activity.class',
+            '**/*Activity$*.class',
+            '**/*Dialog.class',
+            '**/*Dialog$*.class',
+            '**/*Fragment.class',
+            '**/*Fragment$*.class',
+            '**/framework/**',
+            //android sdk
+            'com/android/**',
+            //data bindings
+            '**/databinding/**',
+            '**/bindings/**',
+            '**/*Decoration.class',
+            '**/*Decoration$*.class',
+            '**/*Bindings.class',
+            '**/*Bindings$*.class',
+            //common presentation class suffixes
+            '**/*Decoration.class',
+            '**/*Diff.class',
+            '**/*Recycler*.class',
+            '**/*RecyclerView*.class',
+            '**/*Recycler$*.class',
+            '**/*RecyclerView$*.class',
+            '**/*Adapter.class',
+            '**/*Adapter$*.class',
+            '**/*Layout*.class',
+            '**/*ItemHolder*.class',
+            '**/*ViewHolder*.class',
+            //exceptions
+            '**/*Exception.class',
+    ]
 }

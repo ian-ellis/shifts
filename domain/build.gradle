@@ -1,5 +1,7 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+apply plugin: 'jacoco'
+apply from: '../coverage.gradle'
 
 dependencies {
 
@@ -20,6 +22,26 @@ dependencies {
     //___________________________________ STD LIBS ___________________________________
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+afterEvaluate {
+    def domainExcludes = [
+        'com/github/ianellis/shifts/domain/events/Event.class'
+    ]
+    buildCoverageCheck(
+            ['src/main/java'],//sourcePaths:
+            ["$buildDir/classes/kotlin/main"],// classesPath:
+            jacocoCommonExcludes + domainExcludes,//excludes:
+            [
+                    'instruction': 74,
+                    'branch'     : 35,
+                    'line'       : 100,
+                    'complexity' : 45,
+                    'method'     : 80,
+                    'class'      : 90
+            ],//coverageLimits:
+            "test"
+    )
 }
 
 sourceCompatibility = "1.7"
