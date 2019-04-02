@@ -61,8 +61,8 @@ class ListenForShiftUpdatesCommandSpec {
 
         //then we receive mapped Shift data objects
         val expectedShifts = listOf(
-            Shift(ShiftState.Started(Date(1554153343000)), URL(imageUrl2)),
-            Shift(ShiftState.Complete(Date(1554027318000), Date(1554030943000)), URL(imageUrl1))
+            Shift(2, ShiftState.Started(Date(1554153343000)), URL(imageUrl2)),
+            Shift(1, ShiftState.Complete(Date(1554027318000), Date(1554030943000)), URL(imageUrl1))
         )
 
         verify { listener(Event(expectedShifts)) }

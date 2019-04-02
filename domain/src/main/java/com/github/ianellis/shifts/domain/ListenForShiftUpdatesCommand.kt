@@ -31,6 +31,7 @@ class ListenForShiftUpdatesCommand constructor(
 
     private fun ShiftEntity.toShift(): Shift {
         return Shift(
+            id = this.id,
             state = this.state(),
             imageUrl = URL(this.image)
         )
