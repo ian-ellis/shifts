@@ -6,6 +6,7 @@ import com.github.ianellis.shifts.domain.events.SimpleEventEmitter
 import com.github.ianellis.shifts.domain.helpers.mockFunction
 import com.github.ianellis.shifts.entities.EndShiftRequest
 import com.github.ianellis.shifts.entities.ShiftEntity
+import com.github.ianellis.shifts.entities.ShiftsResponseEntity
 import com.github.ianellis.shifts.entities.StartShiftRequest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -60,7 +61,7 @@ class ShiftRepositorySpec {
         coEvery { service.startShiftAsync(StartShiftRequest(time, lat, long)) } returns GlobalScope.async { Unit }
 
         //and reloading will be successful
-        val loadedShifts: List<ShiftEntity> = listOf(mockk(), mockk())
+        val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
         //and we are listening for events
@@ -96,7 +97,7 @@ class ShiftRepositorySpec {
         every { service.endShiftAsync(EndShiftRequest(time, lat, long)) } returns GlobalScope.async { Unit }
 
         //and reloading will be successful
-        val loadedShifts: List<ShiftEntity> = listOf(mockk(), mockk())
+        val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
         //and we are listening for events
@@ -124,7 +125,7 @@ class ShiftRepositorySpec {
     @Test
     fun `loadShifts() - loads shifts and emits as new event`() {
         //given loading shifts will succeed
-        val loadedShifts: List<ShiftEntity> = listOf(mockk(), mockk())
+        val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
         //and we are listening for events
@@ -165,7 +166,7 @@ class ShiftRepositorySpec {
     @Test
     fun `removeListener unregisters listener, no further events received`(){
         //given loading shifts will succeed
-        val loadedShifts: List<ShiftEntity> = listOf(mockk(), mockk())
+        val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
         //and we are listening for events

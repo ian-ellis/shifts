@@ -2,6 +2,7 @@ package com.github.ianellis.shifts.domain
 
 import com.github.ianellis.shifts.entities.EndShiftRequest
 import com.github.ianellis.shifts.entities.ShiftEntity
+import com.github.ianellis.shifts.entities.ShiftsResponseEntity
 import com.github.ianellis.shifts.entities.StartShiftRequest
 import kotlinx.coroutines.Deferred
 import retrofit2.http.Body
@@ -17,5 +18,5 @@ interface ShiftsService {
     fun endShiftAsync(@Body request: EndShiftRequest): Deferred<Unit>
 
     @GET("/dmc/shifts")
-    fun shiftAsync(): Deferred<List<ShiftEntity>>
+    fun shiftAsync(): Deferred<ShiftsResponseEntity>
 }
