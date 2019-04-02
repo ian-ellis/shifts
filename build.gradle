@@ -54,6 +54,9 @@ ext {
     junit_version = '4.12'
     android_architecture_components_version = '1.1.1'
 
+    dagger_version = '2.21'
+    javax_version = '1'
+
     jacocoCommonExcludes = [
 
             //generated classes
