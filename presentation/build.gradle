@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
 
-
+    dataBinding.enabled = true
 
     defaultConfig {
         minSdkVersion 16
@@ -30,6 +30,7 @@ dependencies {
 
     //_____________________________ ANNOTATION PROCESSORS ___________________________
 
+    kapt "androidx.databinding:databinding-compiler:$android_plugin_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "javax.inject:javax.inject:$javax_version"
