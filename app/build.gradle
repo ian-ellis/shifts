@@ -12,6 +12,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    dataBinding.enabled = true
+
     buildTypes {
         release {
             minifyEnabled false
@@ -40,14 +43,23 @@ dependencies {
     implementation project(':domain')
     implementation project(':entities')
 
+    //___________________________________ NETWORKING _________________________________
+
+    implementation "com.squareup.retrofit2:converter-gson:$retro_fit_version"
+    implementation "com.squareup.retrofit2:retrofit:$retro_fit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_coroutines_adapter_version"
+
     //___________________________________ ANDROID ___________________________________
 
     implementation "com.android.support:appcompat-v7:$app_compat_version"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
 
     //___________________________________ STD LIBS ___________________________________
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
 
     //_____________________________________ TESTS ____________________________________
 

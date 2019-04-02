@@ -1,4 +1,4 @@
-package com.github.ianellis.shifts.presentation.location
+package com.github.ianellis.shifts.location
 
 import android.Manifest
 import android.content.Context
@@ -47,7 +47,7 @@ class AndroidLocationRepository(
     private suspend fun getLocationFromManagerAsync(): LatLng {
         return suspendCoroutine { cont ->
             locationProvider.lastLocation.addOnCompleteListener { taskResult ->
-                if (taskResult.isSuccessful) {
+                if (taskResult.isSuccessful && taskResult.result != null) {
                     val location = taskResult.result
                     cont.resume(LatLng(location.latitude, location.longitude))
                 } else {
