@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter
 import android.databinding.BindingAdapter
 import android.view.View
 import android.view.ViewPropertyAnimator
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import java.util.*
 
 object CommonBindings {
@@ -48,6 +50,17 @@ object CommonBindings {
             View.VISIBLE
         } else {
             View.GONE
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("imageUrl")
+    fun bindPicasso(imageView: ImageView, url: String) {
+        if (url.isNotBlank()) {
+            Picasso.with(imageView.context)
+                .load(url)
+                .placeholder(R.color.image_unloaded)
+                .into(imageView)
         }
     }
 }
