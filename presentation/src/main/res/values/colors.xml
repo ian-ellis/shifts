@@ -2,4 +2,5 @@
 <resources>
     <color name="inprogress">#b6ffb2</color>
     <color name="complete">#e5e5e5</color>
+    <color name="image_unloaded">#3d3d3d</color>
 </resources>
