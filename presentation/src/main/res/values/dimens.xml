@@ -2,4 +2,5 @@
 <resources>
     <dimen name="spinner_size">56dp</dimen>
     <dimen name="recycler_item_default_padding">16dp</dimen>
+    <dimen name="shift_image_size">50dp</dimen>
 </resources>
