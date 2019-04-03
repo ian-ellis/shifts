@@ -9,6 +9,12 @@ import java.util.*
 object ShiftBindings {
 
     @JvmStatic
+    @BindingAdapter("shifts")
+    fun bindShifts(recycler: ShiftsRecycler, shifts: List<Shift>?) {
+        recycler.setShifts(shifts ?: emptyList())
+    }
+
+    @JvmStatic
     @BindingAdapter("shiftTime")
     fun bindShifts(text: TextView, date: Date?) {
         val defaultValue = ""
