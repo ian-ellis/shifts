@@ -49,6 +49,8 @@ dependencies {
     testImplementation "io.mockk:mockk:$mockk_version"
     testImplementation "org.amshove.kluent:kluent:$kluent_version"
     testImplementation "android.arch.core:core-testing:$android_architecture_components_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     //_________________________________ ANDROID TESTS ________________________________
 
