@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -7,18 +8,32 @@
             name="start"
             type="java.util.Date" />
 
+        <variable
+            name="imageUrl"
+            type="String" />
+
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        style="@style/Shift.Started"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Shift.Started">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_shift"
+            android:layout_width="@dimen/shift_image_size"
+            android:layout_height="@dimen/shift_image_size"
+            android:layout_marginEnd="@dimen/recycler_item_default_padding"
+            android:layout_marginRight="@dimen/recycler_item_default_padding"
+            app:imageUrl="@{imageUrl}" />
 
         <TextView
-            style="@style/ShiftTime"
             android:id="@+id/txt_start"
+            style="@style/ShiftTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/img_shift"
+            android:layout_toRightOf="@+id/img_shift"
             app:shiftTime="@{start}" />
 
     </RelativeLayout>

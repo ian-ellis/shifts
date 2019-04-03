@@ -16,6 +16,7 @@ class ShiftCompleteViewHolder(private val binding: RecyclerItemShiftCompleteBind
             is ShiftState.Complete -> {
                 binding.start = state.start
                 binding.end = state.end
+                binding.imageUrl = shift.imageUrl.toString()
             }
         }
     }

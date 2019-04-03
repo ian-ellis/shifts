@@ -11,6 +11,7 @@ class ShiftStaredViewHolder(private val binding: RecyclerItemShiftStartedBinding
         when (state) {
             is ShiftState.Started -> {
                 binding.start = state.date
+                binding.imageUrl = shift.imageUrl.toString()
             }
             is ShiftState.Complete -> {
                 throw IllegalStateException("passed complete  shift to ShiftStaredViewHolder")
