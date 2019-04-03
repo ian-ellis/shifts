@@ -61,6 +61,10 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+    //__________________________________ THIRD PARTY _________________________________
+
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
     //_____________________________________ TESTS ____________________________________
 
     testImplementation "junit:junit:$junit_version"

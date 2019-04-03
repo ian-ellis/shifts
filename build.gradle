@@ -60,6 +60,8 @@ ext {
     dagger_version = '2.21'
     javax_version = '1'
 
+    picasso_version = '2.5.2'
+
     jacocoCommonExcludes = [
 
             //generated classes
