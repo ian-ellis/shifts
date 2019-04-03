@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="spinner_size">56dp</dimen>
     <dimen name="recycler_item_default_padding">16dp</dimen>
 </resources>
