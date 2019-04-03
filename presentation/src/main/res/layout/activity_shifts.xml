@@ -1,18 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.ShiftsActivity">
+<layout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-</android.support.constraint.ConstraintLayout>
+        <import type="com.github.ianellis.shifts.presentation.CurrentShiftState" />
+
+        <variable
+            name="viewModel"
+            type="com.github.ianellis.shifts.presentation.ShiftsViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ShiftsActivity">
+
+        <FrameLayout
+            android:id="@+id/layout_btns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="@{viewModel.shiftState == CurrentShiftState.OFF &amp;&amp; viewModel.loading == false}"
+                android:onClick="@{viewModel::startShift}"
+                android:text="@string/button_start_shift"
+                app:include="@{viewModel.shiftState == CurrentShiftState.OFF || viewModel.shiftState == CurrentShiftState.STARTING}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="@{viewModel.shiftState == CurrentShiftState.STARTED &amp;&amp; viewModel.loading == false}"
+                android:onClick="@{viewModel::endShift}"
+                android:text="@string/button_end_shift"
+                app:include="@{viewModel.shiftState == CurrentShiftState.STARTED || viewModel.shiftState == CurrentShiftState.ENDING}" />
+        </FrameLayout>
+
+        <ProgressBar
+            android:layout_width="@dimen/spinner_size"
+            android:layout_height="@dimen/spinner_size"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            app:fadeVisible="@{viewModel.loading}" />
+
+        <com.github.ianellis.shifts.presentation.ShiftsRecycler
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shifts="@{viewModel.shifts}"
+            android:layout_below="@id/layout_btns" />
+
+
+    </RelativeLayout>
+</layout>
