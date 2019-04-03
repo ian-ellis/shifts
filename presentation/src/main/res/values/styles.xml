@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Shift">
+        <item name="android:padding">@dimen/recycler_item_default_padding</item>
+    </style>
+
+    <style name="Shift.Complete">
+        <item name="android:background">@color/complete</item>
+    </style>
+
+    <style name="Shift.Started">
+        <item name="android:background">@color/inprogress</item>
+    </style>
+
+    <style name="ShiftTime">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+</resources>

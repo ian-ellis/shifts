@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="start"
+            type="java.util.Date" />
+
+        <variable
+            name="end"
+            type="java.util.Date" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Shift.Complete">
+
+        <TextView
+            style="@style/ShiftTime"
+            android:id="@+id/txt_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:shiftTime="@{start}" />
+
+        <TextView
+            style="@style/ShiftTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_start"
+            app:include="@{end != null}"
+            app:shiftTime="@{end}" />
+    </RelativeLayout>
+</layout>
