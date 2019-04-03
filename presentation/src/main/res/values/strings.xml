@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">presentation</string>
 
+    <string name="shift_location_permission_dialog_title">We need your location</string>
+    <string name="shift_location_permission_dialog_message">In order to start and end a shift you need to provide your location</string>
+    <string name="shift_location_permission_dialog_positive">OK</string>
+    <string name="shift_location_permission_dialog_negative">cancel</string>
+
     <string name="button_start_shift">Start Shift</string>
     <string name="button_end_shift">End Shift</string>
 </resources>
