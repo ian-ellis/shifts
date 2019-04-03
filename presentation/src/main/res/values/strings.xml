@@ -6,6 +6,9 @@
     <string name="shift_location_permission_dialog_positive">OK</string>
     <string name="shift_location_permission_dialog_negative">cancel</string>
 
+    <string name="generic_error_dialog_title">Oops something wnet wrong</string>
+    <string name="generic_error_dialog_message">We weren\'t expecting that, please try again </string>
+
     <string name="button_start_shift">Start Shift</string>
     <string name="button_end_shift">End Shift</string>
 </resources>

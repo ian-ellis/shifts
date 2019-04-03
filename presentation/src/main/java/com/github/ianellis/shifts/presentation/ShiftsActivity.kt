@@ -28,6 +28,10 @@ class ShiftsActivity : AppCompatActivity() {
         vm.requestPermission.observe(this, Observer {
             it?.let(this::handlePermissions)
         })
+        vm.showGenericError.observe(this, Observer {
+            showGenericErrorDialog()
+        })
+        
         val binding = DataBindingUtil.setContentView<ActivityShiftsBinding>(this, R.layout.activity_shifts)
         binding.lifecycleOwner = this
         binding.viewModel = vm
@@ -65,6 +69,15 @@ class ShiftsActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.shift_location_permission_dialog_negative) { dialog, which ->
+                dialog.dismiss()
+            }.show()
+    }
+
+    private fun showGenericErrorDialog(){
+        AlertDialog.Builder(this)
+            .setTitle(R.string.generic_error_dialog_title)
+            .setMessage(R.string.generic_error_dialog_title)
+            .setPositiveButton(R.string.shift_location_permission_dialog_positive) { dialog, which ->
                 dialog.dismiss()
             }.show()
     }
