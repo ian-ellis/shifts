@@ -27,17 +27,16 @@ class AndroidLocationRepository(
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
     }
 
-    override fun getLocationAsync(): Deferred<LatLng> {
+    override suspend fun getLocationAsync(): LatLng {
 
-        return GlobalScope.async {
-            if (permissionGranted()) {
+        return if (permissionGranted()) {
                 withContext(Dispatchers.Main) {
                     getLocationFromManagerAsync()
                 }
             } else {
                 throw PermissionRequiredException(LOCATION_PERMISSION)
             }
-        }
+
     }
 
     private fun permissionGranted(): Boolean {
