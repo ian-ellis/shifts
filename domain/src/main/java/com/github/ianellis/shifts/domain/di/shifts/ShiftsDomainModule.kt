@@ -11,13 +11,14 @@ import com.github.ianellis.shifts.domain.ShiftsService
 import com.github.ianellis.shifts.domain.StartShiftCommand
 import com.github.ianellis.shifts.domain.di.ActivityScope
 import com.github.ianellis.shifts.domain.events.Event
-import com.github.ianellis.shifts.domain.events.LatestEventEmitter
 import com.github.ianellis.shifts.domain.location.LocationRespoitory
 import com.github.ianellis.shifts.domain.time.Clock
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.ReceiveChannel
 
+@ExperimentalCoroutinesApi
 @Module
 class ShiftsDomainModule {
 
@@ -53,8 +54,8 @@ class ShiftsDomainModule {
     fun providesListenForShifts(
         shiftRepository: ShiftRepository,
         clock: Clock
-    ): Function1<@JvmSuppressWildcards Function1<@JvmSuppressWildcards Event<List<Shift>>, kotlin.Unit>, @JvmSuppressWildcards Function0<kotlin.Unit>> {
-        return ListenForShiftUpdatesCommand(shiftRepository, clock)
+    ): ReceiveChannel<Event<List<Shift>>> {
+        return ListenForShiftUpdatesCommand(shiftRepository, clock)()
     }
 
     @Provides
