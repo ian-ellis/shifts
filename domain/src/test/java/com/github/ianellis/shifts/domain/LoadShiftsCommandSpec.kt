@@ -1,7 +1,9 @@
 package com.github.ianellis.shifts.domain
 
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
@@ -18,7 +20,9 @@ class LoadShiftsCommandSpec {
 
     @Test
     fun `invoke()- calls delegates load call to repository`(){
-        command()
-        verify { repository.loadShifts() }
+        runBlocking {
+            command()
+        }
+        coVerify { repository.loadShifts() }
     }
 }

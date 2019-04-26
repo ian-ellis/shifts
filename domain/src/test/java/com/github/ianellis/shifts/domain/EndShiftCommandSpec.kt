@@ -35,7 +35,7 @@ class EndShiftCommandSpec {
             override fun timezone() = TimeZone.getTimeZone("Australia/Sydney")
         }
 
-        command = EndShiftCommand(locationRepository, shiftRepository, clock, Dispatchers.Default)
+        command = EndShiftCommand(locationRepository, shiftRepository, clock)
     }
 
 
@@ -44,14 +44,14 @@ class EndShiftCommandSpec {
         //given we will get the location successfully
         val lat: Double = -33.881399
         val lng: Double = 151.199564
-        coEvery { locationRepository.getLocationAsync() } returns GlobalScope.async { LatLng(lat, lng) }
+        coEvery { locationRepository.getLocationAsync() } returns  LatLng(lat, lng)
 
         //and starting a shift will succeed
-        coEvery { shiftRepository.endShiftAsync("2019-03-31T19:25:59+11:00", "-33.881399", "151.199564") } returns GlobalScope.async { Unit }
+        coEvery { shiftRepository.endShiftAsync("2019-03-31T19:25:59+11:00", "-33.881399", "151.199564") } returns Unit
 
         //when we invoke
         runBlocking {
-            command.invoke().await()
+            command.invoke()
         }
 
         coVerify { shiftRepository.endShiftAsync("2019-03-31T19:25:59+11:00", "-33.881399", "151.199564") }
@@ -62,14 +62,14 @@ class EndShiftCommandSpec {
     fun `invoke() uses default location if Location unavailable`(){
         //given we will get the location successfully
 
-        coEvery { locationRepository.getLocationAsync() } returns GlobalScope.async { throw LocationUnavailableException() }
+        coEvery { locationRepository.getLocationAsync() } throws LocationUnavailableException()
 
         //and starting a shift will succeed
-        coEvery { shiftRepository.endShiftAsync("2019-03-31T19:25:59+11:00", "0.0", "0.0") } returns GlobalScope.async { Unit }
+        coEvery { shiftRepository.endShiftAsync("2019-03-31T19:25:59+11:00", "0.0", "0.0") } returns  Unit
 
         //when we invoke
         runBlocking {
-            command.invoke().await()
+            command()
         }
 
         coVerify { shiftRepository.endShiftAsync("2019-03-31T19:25:59+11:00", "0.0", "0.0") }

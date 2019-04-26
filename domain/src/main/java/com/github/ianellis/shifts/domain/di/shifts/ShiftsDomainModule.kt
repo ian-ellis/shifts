@@ -1,5 +1,6 @@
 package com.github.ianellis.shifts.domain.di.shifts
 
+import com.github.ianellis.shifts.domain.Action
 import com.github.ianellis.shifts.domain.EndShiftCommand
 import com.github.ianellis.shifts.domain.ListenForShiftUpdatesCommand
 import com.github.ianellis.shifts.domain.LoadShiftsCommand
@@ -15,8 +16,7 @@ import com.github.ianellis.shifts.domain.location.LocationRespoitory
 import com.github.ianellis.shifts.domain.time.Clock
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Module
 class ShiftsDomainModule {
@@ -27,8 +27,8 @@ class ShiftsDomainModule {
         locationRepository: LocationRespoitory,
         shiftRepository: ShiftRepository,
         clock: Clock
-    ): () -> @JvmSuppressWildcards Deferred<Unit> {
-        return StartShiftCommand(locationRepository, shiftRepository, clock, Dispatchers.IO)
+    ): Action {
+        return StartShiftCommand(locationRepository, shiftRepository, clock)
     }
 
     @Provides
@@ -37,15 +37,15 @@ class ShiftsDomainModule {
         locationRepository: LocationRespoitory,
         shiftRepository: ShiftRepository,
         clock: Clock
-    ): () -> @JvmSuppressWildcards Deferred<Unit> {
-        return EndShiftCommand(locationRepository, shiftRepository, clock, Dispatchers.IO)
+    ): Action {
+        return EndShiftCommand(locationRepository, shiftRepository, clock)
     }
 
     @Provides
     @LoadShifts
     fun providesLoadShifts(
         repository: ShiftRepository
-    ): () -> Unit {
+    ): Action {
         return LoadShiftsCommand(repository)
     }
 
