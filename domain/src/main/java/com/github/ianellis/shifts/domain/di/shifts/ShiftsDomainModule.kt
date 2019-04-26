@@ -62,7 +62,7 @@ class ShiftsDomainModule {
     fun providesShiftRepository(
         service: ShiftsService
     ): ShiftRepository {
-        return ShiftRepository(service, ShiftsMemoryCache(), Dispatchers.IO, LatestEventEmitter())
+        return ShiftRepository(service, ShiftsMemoryCache())
     }
 
 
