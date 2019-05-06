@@ -1,9 +1,6 @@
 package com.github.ianellis.shifts.domain
 
 import com.github.ianellis.shifts.domain.events.Event
-import com.github.ianellis.shifts.domain.events.LatestEventEmitter
-import com.github.ianellis.shifts.domain.events.SimpleEventEmitter
-import com.github.ianellis.shifts.domain.helpers.mockFunction
 import com.github.ianellis.shifts.entities.EndShiftRequest
 import com.github.ianellis.shifts.entities.ShiftEntity
 import com.github.ianellis.shifts.entities.ShiftsResponseEntity
@@ -12,9 +9,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -32,7 +26,7 @@ class ShiftRepositorySpec {
     fun setup() {
         service = mockk()
         cache = mockk(relaxUnitFun = true)
-        repository = ShiftRepository(service, cache, Dispatchers.Default, LatestEventEmitter())
+        repository = ShiftRepository(service, cache)
     }
 
     @Test
@@ -43,7 +37,7 @@ class ShiftRepositorySpec {
 
         //when we request shifts
         val shifts = runBlocking {
-            repository.getShiftsAsync().await()
+            repository.getShifts()
         }
 
         //then we should be returned the cached shifts
@@ -64,13 +58,9 @@ class ShiftRepositorySpec {
         val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
-        //and we are listening for events
-        val listener: (Event<List<ShiftEntity>>) -> Unit = mockFunction()
-        repository.addListener(listener)
-
         //when we start a shift
         runBlocking {
-            repository.startShiftAsync(time, lat, long).await()
+            repository.startShift(time, lat, long)
         }
 
         //then we pass the data to the service as StartShiftRequest
@@ -83,7 +73,7 @@ class ShiftRepositorySpec {
         coVerify { cache.setShifts(loadedShifts) }
 
         //then we receive an update of new shifts
-        verify { listener(Event(loadedShifts)) }
+        runBlocking { repository.broadcastChannel.openSubscription().receive() shouldEqual Event(loadedShifts) }
     }
 
     @Test
@@ -100,13 +90,9 @@ class ShiftRepositorySpec {
         val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
-        //and we are listening for events
-        val listener: (Event<List<ShiftEntity>>) -> Unit = mockFunction()
-        repository.addListener(listener)
-
         //when we start a shift
         runBlocking {
-            repository.endShiftAsync(time, lat, long).await()
+            repository.endShift(time, lat, long)
         }
 
         //then we pass the data to the service as EndShiftRequest
@@ -119,7 +105,7 @@ class ShiftRepositorySpec {
         coVerify { cache.setShifts(loadedShifts) }
 
         //then we receive an update of new shifts
-        verify { listener(Event(loadedShifts)) }
+        runBlocking { repository.broadcastChannel.openSubscription().receive() shouldEqual Event(loadedShifts) }
     }
 
     @Test
@@ -128,18 +114,17 @@ class ShiftRepositorySpec {
         val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
         coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
 
-        //and we are listening for events
-        val listener: (Event<List<ShiftEntity>>) -> Unit = mockFunction()
-        repository.addListener(listener)
 
         //when we loadShifts
-        repository.loadShifts()
+        runBlocking {
+            repository.loadShifts()
+        }
 
         //then we store the response
         coVerify { cache.setShifts(loadedShifts) }
 
         //then we get updated with the new events
-        verify { listener(Event(loadedShifts)) }
+        runBlocking{ repository.broadcastChannel.openSubscription().receive() shouldEqual Event(loadedShifts) }
     }
 
     @Test
@@ -152,34 +137,13 @@ class ShiftRepositorySpec {
         val networkError = RuntimeException("OOPS")
         coEvery { service.shiftAsync() } throws networkError
 
-        //and we are listening for events
-        val listener: (Event<List<ShiftEntity>>) -> Unit = mockFunction()
-        repository.addListener(listener)
 
         //when we loadShifts
-        repository.loadShifts()
+        runBlocking {
+            repository.loadShifts()
+        }
 
         //then we receive the previously cached values with the network exception
-        verify { listener(Event(cachedShifts, networkError )) }
-    }
-
-    @Test
-    fun `removeListener unregisters listener, no further events received`(){
-        //given loading shifts will succeed
-        val loadedShifts = ShiftsResponseEntity(listOf(mockk(), mockk()))
-        coEvery { service.shiftAsync() } returns GlobalScope.async { loadedShifts }
-
-        //and we are listening for events
-        val listener: (Event<List<ShiftEntity>>) -> Unit = mockFunction()
-        repository.addListener(listener)
-
-        //when we unregister
-        repository.removeListener(listener)
-
-        //and we load
-        repository.loadShifts()
-
-        //then we do not receive any events
-        verify(exactly = 0) { listener(any()) }
+        runBlocking { repository.broadcastChannel.openSubscription().receive() shouldEqual Event(cachedShifts, networkError) }
     }
 }
