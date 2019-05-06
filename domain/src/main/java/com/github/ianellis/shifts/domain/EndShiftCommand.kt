@@ -23,12 +23,12 @@ class EndShiftCommand(
     override suspend fun invoke() {
 
         val location = try {
-            locationRepository.getLocationAsync()
+            locationRepository.getLocation()
         } catch (e: LocationUnavailableException) {
             FALLBACK_LOCATION
         }
         val date = clock.now().toTime()
-        shiftRepository.endShiftAsync(date, location.first.toString(), location.second.toString())
+        shiftRepository.endShift(date, location.first.toString(), location.second.toString())
 
     }
 

@@ -37,7 +37,7 @@ class ShiftRepositorySpec {
 
         //when we request shifts
         val shifts = runBlocking {
-            repository.getShiftsAsync()
+            repository.getShifts()
         }
 
         //then we should be returned the cached shifts
@@ -60,7 +60,7 @@ class ShiftRepositorySpec {
 
         //when we start a shift
         runBlocking {
-            repository.startShiftAsync(time, lat, long)
+            repository.startShift(time, lat, long)
         }
 
         //then we pass the data to the service as StartShiftRequest
@@ -92,7 +92,7 @@ class ShiftRepositorySpec {
 
         //when we start a shift
         runBlocking {
-            repository.endShiftAsync(time, lat, long)
+            repository.endShift(time, lat, long)
         }
 
         //then we pass the data to the service as EndShiftRequest

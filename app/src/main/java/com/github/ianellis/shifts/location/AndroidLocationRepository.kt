@@ -9,10 +9,7 @@ import com.github.ianellis.shifts.domain.location.LocationRespoitory
 import com.github.ianellis.shifts.domain.location.LocationUnavailableException
 import com.github.ianellis.shifts.domain.location.PermissionRequiredException
 import com.google.android.gms.location.FusedLocationProviderClient
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -27,11 +24,11 @@ class AndroidLocationRepository(
         private const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
     }
 
-    override suspend fun getLocationAsync(): LatLng {
+    override suspend fun getLocation(): LatLng {
 
         return if (permissionGranted()) {
                 withContext(Dispatchers.Main) {
-                    getLocationFromManagerAsync()
+                    getLocationFromManager()
                 }
             } else {
                 throw PermissionRequiredException(LOCATION_PERMISSION)
@@ -43,7 +40,7 @@ class AndroidLocationRepository(
         return ContextCompat.checkSelfPermission(context, LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED
     }
 
-    private suspend fun getLocationFromManagerAsync(): LatLng {
+    private suspend fun getLocationFromManager(): LatLng {
         return suspendCoroutine { cont ->
             locationProvider.lastLocation.addOnCompleteListener { taskResult ->
                 if (taskResult.isSuccessful && taskResult.result != null) {

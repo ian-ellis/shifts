@@ -21,12 +21,12 @@ class StartShiftCommand(
 
     override suspend fun invoke() {
         val location = try {
-            locationRepository.getLocationAsync()
+            locationRepository.getLocation()
         } catch (e: LocationUnavailableException) {
             FALLBACK_LOCATION
         }
         val date = clock.now().toTime()
-        shiftRepository.startShiftAsync(date, location.first.toString(), location.second.toString())
+        shiftRepository.startShift(date, location.first.toString(), location.second.toString())
     }
 
     private fun Date.toTime(): ISO8601 {

@@ -17,22 +17,22 @@ class ShiftRepository(
     val broadcastChannel = ConflatedBroadcastChannel<Event<List<ShiftEntity>>>()
 
     suspend fun loadShifts() {
-        doLoadAsync()
+        doLoad()
     }
 
-    suspend fun getShiftsAsync(): List<ShiftEntity> = cache.getShifts()
+    suspend fun getShifts(): List<ShiftEntity> = cache.getShifts()
 
-    suspend fun startShiftAsync(time: ISO8601, lat: String, lon: String) {
+    suspend fun startShift(time: ISO8601, lat: String, lon: String) {
         service.startShiftAsync(StartShiftRequest(time, lat, lon)).await()
-        doLoadAsync()
+        doLoad()
     }
 
-    suspend fun endShiftAsync(time: ISO8601, lat: String, lon: String) {
+    suspend fun endShift(time: ISO8601, lat: String, lon: String) {
         service.endShiftAsync(EndShiftRequest(time, lat, lon)).await()
-        doLoadAsync()
+        doLoad()
     }
 
-    private suspend fun doLoadAsync() {
+    private suspend fun doLoad() {
         try {
             val shifts = service.shiftAsync().await()
             cache.setShifts(shifts)
