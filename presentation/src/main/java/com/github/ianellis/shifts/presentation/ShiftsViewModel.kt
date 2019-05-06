@@ -68,7 +68,7 @@ class ShiftsViewModel constructor(
         loading.value = true
     }
 
-    fun startShift(v: View? = null) {
+    fun startShift() {
         if (shiftUpdateJob?.isActive != true && shiftState.value == CurrentShiftState.OFF) {
             val previousState = shiftState.value
             shiftState.value = CurrentShiftState.STARTING
@@ -91,7 +91,7 @@ class ShiftsViewModel constructor(
         }
     }
 
-    fun endShift(v: View? = null) {
+    fun endShift() {
         if (shiftUpdateJob?.isActive != true && shiftState.value == CurrentShiftState.STARTED) {
             val previousState = shiftState.value
             shiftState.value = CurrentShiftState.ENDING

@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="@{viewModel.shiftState == CurrentShiftState.OFF &amp;&amp; viewModel.loading == false}"
-                android:onClick="@{viewModel::startShift}"
+                android:onClick="@{()->viewModel.startShift()}"
                 android:text="@string/button_start_shift"
                 app:include="@{viewModel.shiftState == CurrentShiftState.OFF || viewModel.shiftState == CurrentShiftState.STARTING}" />
 
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="@{viewModel.shiftState == CurrentShiftState.STARTED &amp;&amp; viewModel.loading == false}"
-                android:onClick="@{viewModel::endShift}"
+                android:onClick="@{()-> viewModel.endShift()}"
                 android:text="@string/button_end_shift"
                 app:include="@{viewModel.shiftState == CurrentShiftState.STARTED || viewModel.shiftState == CurrentShiftState.ENDING}" />
         </FrameLayout>
